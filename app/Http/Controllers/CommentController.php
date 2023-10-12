@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreRequest;
 
 class CommentController extends Controller
 {
@@ -12,14 +12,18 @@ class CommentController extends Controller
      */
     public function index()
     {
-        return Comment::all();
+        $comments = Comment::where('parent_id', '=', null)->get()->reverse();
+
+        return view('index', ['comments' => $comments]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        $comment = Comment::create($data);
+        return redirect()->route('comments.index');
     }
 }
