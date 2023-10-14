@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class StoreRequest extends FormRequest
 {
@@ -27,6 +28,7 @@ class StoreRequest extends FormRequest
             "homepage_url" => 'max:255',
             "text" => "required",
             "parent_id" => "integer|numeric",
+            "file" => ['mimes:jpg,jpeg,png,gif,txt', 'max:2000'],
         ];
     }
 }
