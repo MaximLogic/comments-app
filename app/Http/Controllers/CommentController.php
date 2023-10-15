@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Http\Requests\StoreRequest;
 use Intervention\Image\Facades\Image;
+use DOMDocument;
 
 class CommentController extends Controller
 {
@@ -74,6 +75,21 @@ class CommentController extends Controller
         }
         $data['file_uri'] = $path;
         unset($data['file']);
+
+        libxml_use_internal_errors(true);
+        $dom = new DOMDocument();
+        $dom->loadXML($data['text']);
+        $errors = libxml_get_errors();
+        libxml_clear_errors();
+        if(empty($errors))
+        {
+            $data['text'] = strip_tags($data['text'], '<a href title><code><i><strong>');
+        }
+        else
+        {
+            $data['text'] = strip_tags($data['text'], '');
+        }
+
         $comment = Comment::create($data);
         return redirect()->route('comments.index');
     }
