@@ -13,7 +13,28 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::where('parent_id', '=', null)->get()->reverse();
+        $orderBy = request()->orderby;
+        $orderAsc = request()->orderasc;
+        $comments = Comment::where('parent_id', '=', null);
+        if(in_array($orderBy, ['username', 'email', 'created_at']))
+        {
+            if($orderAsc == 'desc')
+            {
+                $comments = $comments->orderByDesc($orderBy)->get();
+            }
+            else
+            {
+                $comments = $comments->orderBy($orderBy)->get();
+            }
+        }
+        else if($orderAsc == 'asc')
+        {
+            $comments = $comments->orderBy('created_at')->get();
+        }
+        else
+        {
+            $comments = $comments->orderByDesc('created_at')->get();
+        }
 
         return view('index', ['comments' => $comments]);
     }

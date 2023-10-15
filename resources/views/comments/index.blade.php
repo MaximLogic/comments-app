@@ -35,11 +35,11 @@
             <div class="form-group">
             <input type="text" name="username" class="form-control" placeholder="Username" />
             @error('username')
-                <span style="color: red">Please, type your username</span>
+                <span style="color: red">Please, type valid username</span>
             @enderror<br>
             <input type="text" name="email" class="form-control" placeholder="E-mail" />
             @error('email')
-                <span style="color: red">Please, type your email</span>
+                <span style="color: red">Please, type valid email</span>
             @enderror<br>
             <input type="text" name="homepage_url" class="form-control" placeholder="Home page url" /><br>
             <input type="file" name="file" class="form-control" />
@@ -53,7 +53,7 @@
             <input type="hidden" name="parent_id" value={{ $comment->id }} />
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-warning" value="Comment" />
+            <input type="submit" class="btn btn-primary" value="Comment" />
         </div>
         </form>
         @include('comments.index', ['comments' => $comment->replies])
