@@ -50,7 +50,7 @@ class CommentController extends Controller
         if($request->hasFile('file'))
         {
             $file = $request->file('file');
-            $filename = time() . $file->getClientOriginalName();
+            $filename = time() . str_replace(' ', '_', $file->getClientOriginalName());
             if($file->extension() == 'txt')
             {
                 $path = 'storage/' . $file->storeAs('commentFiles/txt', $filename);
